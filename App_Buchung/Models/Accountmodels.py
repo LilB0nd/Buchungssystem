@@ -1,12 +1,11 @@
 from django.db import models
-import os
-from encrypted_model_fields.fields import EncryptedCharField
+
 from django.core.exceptions import ValidationError
 #TODO ENCRYPTED PASSWORD
 class Accounts(models.Model):
     Email = models.EmailField(max_length=254)
     Username = models.CharField(max_length=30)
-    password = models.EncryptedCharField(max_lenght=100)
+    # password = models.EncryptedCharField(max_lenght=100)
     Vorname = models.CharField(max_length=30)
     Nachname = models.CharField(max_length=50)
     Klasse = models.Choices[
