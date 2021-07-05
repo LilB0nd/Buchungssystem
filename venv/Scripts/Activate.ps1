@@ -27,7 +27,7 @@ function global:deactivate ([switch]$NonDestructive) {
 
 deactivate -nondestructive
 
-$env:VIRTUAL_ENV="C:\Users\yvoda\OneDrive\Dokumente\GitHub\Buchungssystem\venv"
+$env:VIRTUAL_ENV="C:\Schule\Programmierpraktikum\Server\Buchungssystem\venv"
 
 if (! $env:VIRTUAL_ENV_DISABLE_PROMPT) {
     # Set the prompt to include the env name
