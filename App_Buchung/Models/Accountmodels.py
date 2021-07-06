@@ -1,11 +1,9 @@
 from django.db import models
-
 from django.core.exceptions import ValidationError
-#TODO ENCRYPTED PASSWORD
 class Accounts(models.Model):
     Email = models.EmailField(max_length=254)
     Username = models.CharField(max_length=30)
-    # password = models.EncryptedCharField(max_lenght=100)
+    password = models.CharField(max_lenght=100)
     Vorname = models.CharField(max_length=30)
     Nachname = models.CharField(max_length=50)
     Klasse = models.Choices[
@@ -15,12 +13,11 @@ class Accounts(models.Model):
          "dqi20", "DQI20")
     ]
     Einverstaendniserklaerung = models.BooleanField(default=0)
-    Kursbelegt = models.BooleanField(default=0)
-
-
+    Kursbelegung = models.BooleanField(default=0)
+    def __str__(self):
+        return self.Vorname
     def clean(self):
-        Email = self.cleaned_data("Email")
-        if "@schule.bremen.de" not in Email:
+        if "@schule.bremen.de" not in self.Email:
             raise ValidationError("Bitte benutze deine von der Schule verfügung gestellte Email")
-        return Email
+        return self.Email
 
