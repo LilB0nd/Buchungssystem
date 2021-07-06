@@ -11,6 +11,7 @@ class Profile(models.Model):
             "dqi21","DQI21")]
     Einverstaendniserklaerung = models.BooleanField(default=0)
     Kursbelegung = models.BooleanField(default=0)
+    Kurs_date = models.DateTimeField()
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
