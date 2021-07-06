@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 class Profile(models.Model):
+    User = models.OneToOneField(User, on_delete=models.CASCADE)
     Klasse = models.Choices[
         ("dqi18","DQI18"),
         ("dqi19","DQI19"),
