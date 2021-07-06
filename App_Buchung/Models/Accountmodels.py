@@ -4,11 +4,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 class Profile(models.Model):
     Klasse = models.Choices[
-        (
-            "dqi18","DQI1818"
-            "dqi19","DQI19"
-            "dqi20","DQI20"
-            "dqi21","DQI21")]
+        ("dqi18","DQI18"),
+        ("dqi19","DQI19"),
+        ("dqi20","DQI20"),
+        ("dqi21","DQI21")]
     Einverstaendniserklaerung = models.BooleanField(default=0)
     Kursbelegung = models.BooleanField(default=0)
     Kurs_date = models.DateTimeField()
