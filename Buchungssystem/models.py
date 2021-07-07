@@ -2,9 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
-
 # # Create your models here.
-
 
 class Equipment(models.Model):
     name = models.CharField()
@@ -22,25 +20,31 @@ class Equipment(models.Model):
         verbose_name_plural = 'Geräte'
 
 
-
 class UserProfile(models.Model):
-    User = models.OneToOneField(User, on_delete=models.CASCADE)
-    Klasse = models.CharField(max_length=5)
-    Einverstaedniserklaerung = models.BooleanField(default=False)
-    Kursbelegung = models.BooleanField(default=False)
-    Kurs_Date = models.DateField()
-    Lehrer = models.BooleanField(default=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    choices = [
+        ("dqi18", "DQI18"),
+        ("dqi19", "DQI19"),
+        ("dqi20", "DQI20"),
+        ("dqi21", "DQI21"),
+    ]
+    classes = models.CharField(max_length=5, choices=choices)
+    letter_of_acceptance = models.BooleanField(default=False)
+    induction_course = models.BooleanField(default=False)
+    course_date = models.DateField(blank=True)
+    teacher = models.BooleanField(default=False)
+
 
 class Appointment(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     Equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
     date = models.DateField(default=datetime.now())
     start_time = models.TimeField()
     end_time = models.TimeField()
 
 
-class annulated_Appointment(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+class AnnulatedAppointment(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     Equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
     date = models.DateField(default=datetime.now())
     start_time = models.TimeField()
