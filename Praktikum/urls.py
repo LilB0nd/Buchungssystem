@@ -19,5 +19,6 @@ from Buchungssystem.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #include('calendar/',  )
+    path('login/', Login.as_view(), name='login')
+
 ]

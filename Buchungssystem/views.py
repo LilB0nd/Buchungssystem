@@ -1,12 +1,18 @@
-from django.shortcuts import render
-from django.views import generic
+
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
 from Buchungssystem.models import *
 # Create your views here.
 
+class Login(LoginView):
+    template_name = 'registration/login.html'
 
-class Calender(generic.DetailView):
-    model = Appointment
-    template_name = 'appointment.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def post(self, request, *args, **kwargs):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            login(request, user)
+            return HttpResponseRedirect("/admin/")
+        return

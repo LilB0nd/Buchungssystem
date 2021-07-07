@@ -1,16 +1,19 @@
+{%  load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>Login</title>
-        <link rel="stylesheet", href="../Css/login.css">
+        <link rel="stylesheet" href="/static/Css/login.css">
     </head>
     <body>
         <div class="login-page">
           <div class="form">
-            <form class="login-form">
-              <input type="text" placeholder="Benutzername"/>
-              <input type="password" placeholder="Passwort"/>
+
+            <form class="login-form" action='' method="post">
+                {% csrf_token %}
+              <input type="text" placeholder="Benutzername" name="username"/>
+              <input type="password" placeholder="Passwort" name="password"/>
               <div>
                 <div>
                   <button class="btn-one" type="submit">Login</button>
