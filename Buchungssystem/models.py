@@ -1,7 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
-# Create your models here.
+from django.views import generic
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+# # Create your models here.
 
 
 class Equipment(models.Model):
@@ -20,19 +25,14 @@ class Equipment(models.Model):
         verbose_name_plural = 'Geräte'
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    choices = [
-        ("dqi18", "DQI18"),
-        ("dqi19", "DQI19"),
-        ("dqi20", "DQI20"),
-        ("dqi21", "DQI21"),
-        ]
-    classes = models.CharField(choices=choices)
-    letter_of_acceptance = models.BooleanField(default=None)
-    induction_course = models.BooleanField(default=None)
-    course_date = models.DateField(blank=True)
-    teacher = models.BooleanField(default=None)
+
+class UserProfile(models.Model):
+    User = models.OneToOneField(User, on_delete=models.CASCADE)
+    Klasse = models.CharField(max_length=5)
+    Einverstaedniserklaerung = models.BooleanField(default=False)
+    Kursbelegung = models.BooleanField(default=False)
+    Kurs_Date = models.DateField()
+    Lehrer = models.BooleanField(default=False)
 
 class Appointment(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
