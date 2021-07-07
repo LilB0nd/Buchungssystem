@@ -1,27 +1,26 @@
-{%  load static %}
-<!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="UTF-8">
-        <title>Login</title>
-        <link rel="stylesheet" href="/static/Css/login.css">
+      <link href="/static/CSS/login.css" type="text/css" rel="stylesheet"/>
     </head>
-    <body>
-        <div class="login-page">
-          <div class="form">
-
-            <form class="login-form" action='' method="post">
-                {% csrf_token %}
-              <input type="text" placeholder="Benutzername" name="username"/>
-              <input type="password" placeholder="Passwort" name="password"/>
-              <div>
-                <div>
-                  <button class="btn-one" type="submit">Login</button>
-                </div>
-              </div>
-              <p class="message">Noch keinen Account? <a href="#">Erstelle einen Account</a></p>
-            </form>
-          </div>
+    <div class="login-box">
+      <h2>Login</h2>
+      <form action="" method="post">
+           {% csrf_token %}
+        <div class="user-box">
+          <input type="text" name="username" required="">
+          <label>Username</label>
         </div>
-    </body>
+        <div class="user-box">
+          <input type="password" name="password" required="">
+          <label>Password</label>
+        </div>
+        <button type="submit" class="button" onclick="myFunction">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Login
+        </button>
+      </form>
+    </div>
 </html>
