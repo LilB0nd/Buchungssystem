@@ -1,28 +1,30 @@
-{%  load static %}
-<!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="UTF-8">
-        <title>Login</title>
-        <link rel="stylesheet" href="/static/Css/login.css">
+      <link href="/static/Css/login fail.css" type="text/css" rel="stylesheet"/>
     </head>
-    <body>
-        <div class="login-page">
-          <div class="form">
-
-            <form class="login-form" action='' method="post">
-                {% csrf_token %}
-              <input type="text" placeholder="Benutzername" name="username"/>
-              <input type="password" placeholder="Passwort" name="password"/>
-              <div>
-                <div>
-                    <h3>Anmeldendaten falsch</h3>
-                  <button class="btn-one" type="submit">Login</button>
-                </div>
-              </div>
-              <p class="message">Noch keinen Account? <a href="#">Erstelle einen Account</a></p>
-            </form>
-          </div>
+    <div class="login-box">
+      <h2>Login</h2>
+      <form>
+        <div class="user-box">
+          <input type="text" name="Username" required="">
+          <label>Username</label>
         </div>
-    </body>
+        <div class="user-box">
+          <input type="password" name="password" required="">
+          <label>Password</label>
+        </div>
+        <a role="button" class="button" onclick="myFunction">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Login
+        </a>
+      </form>
+      <script>
+        function myFunction() {
+            document.getElementById("GFG").submit();
+        }
+      </script>
+    </div>
 </html>
