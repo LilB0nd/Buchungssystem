@@ -1,19 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+from django.utils import timezone
 
 # # Create your models here.
 
+
 class Equipment(models.Model):
-    name = models.CharField()
-    description = models.CharField()
-    brand = models.CharField()
-    purchase_date = models.DateField()
-    qualification = models.CharField()
-    room = models.CharField()
+    name = models.CharField(max_length=90)
+    description = models.TextField(max_length=300)
+    brand = models.CharField(max_length=30)
+    model = models.CharField(max_length=30)
+    now = timezone.now()
+    purchase_date = models.DateField(default=now)
+    qualification = models.TextField(max_length=300)
+    room = models.CharField(max_length=5)
 
     def __str__(self):
-        return str(self.name + '_' + str(self.id))
+        return str(self.name + '/' + str(self.id))
 
     class Meta:
         verbose_name = 'Gerät'
@@ -31,21 +34,30 @@ class UserProfile(models.Model):
     classes = models.CharField(max_length=5, choices=choices)
     letter_of_acceptance = models.BooleanField(default=False)
     induction_course = models.BooleanField(default=False)
-    course_date = models.DateField(blank=True)
-    teacher = models.BooleanField(default=False)
+    course_date = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return str(self.user.username)
 
 
 class Appointment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     Equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
-    date = models.DateField(default=datetime.now())
+    date = models.DateField(blank=True)
     start_time = models.TimeField()
     end_time = models.TimeField()
+
+    def __str__(self):
+        return str('Buchung/' + str(self.date) + '/' + str(self.start_time) + '-' + str(self.end_time))
+
+    class Meta:
+        verbose_name= 'Buchung'
+        verbose_name_plural= 'Buchungen'
 
 
 class AnnulatedAppointment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     Equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
-    date = models.DateField(default=datetime.now())
+    date = models.DateField(blank=True)
     start_time = models.TimeField()
     end_time = models.TimeField()
