@@ -14,6 +14,9 @@
           <input type="password" name="password" required="">
           <label>Password</label>
         </div>
+          {% if error %}
+        <p style="color: white">Ihre Anmeldedaten waren falsch</p>
+        {% endif %}
         <button type="submit" class="button">
           <span></span>
           <span></span>
@@ -23,5 +26,6 @@
         </button>
       </form>
     </div>
+
 </html>
-{{ error_message }}
+
