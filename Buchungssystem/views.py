@@ -1,9 +1,10 @@
 
 from django.contrib.auth.views import LoginView
+from Buchungssystem.forms import UserCreateForm
 from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from Buchungssystem.models import *
 # Create your views here.
 
@@ -24,5 +25,18 @@ class Login(LoginView):
 class SignUP(generic.CreateView):
     template_name = 'registration/register.html'
 
+    def post(self, request, *args, **kwargs):
+        form = UserCreateForm(request.POST)
+        if form.is_valid():
+            print("TEST")
+
+    """ 
+    template_name = 'registration/register.html'
+    form_class = UserCreateForm
+
+    def get(self, request, *args, **kwargs):
+        context = {'form': UserCreateForm()}
+        return render(request, 'registration/register.html', context)
 
 
+"""
