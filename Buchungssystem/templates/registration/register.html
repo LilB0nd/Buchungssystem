@@ -1,22 +1,42 @@
-<!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <title>Registration</title>
-        <link rel="stylesheet" href="../../../static/CSS/login_save.css">
+      <link href="/static/CSS/login.css" type="text/css" rel="stylesheet"/>
+        <title>SignUp</title>
     </head>
-    <body>
-        <div class="register-page">
-          <div class="form">
-            <form class="login-form">
-                <input type="text" placeholder="Nachname"/>
-                <input type="text" placeholder="Vorname"/>
-                <input type="password" placeholder="Passwort"/>
-                <input type="email" placeholder="Email-Adresse"/>
-                <button type="submit", class="btn-one">create</button>
-                <p class="message">Du hast schon einen Account? <a href="#">Anmelden</a></p>
-            </form>
-          </div>
+    <div class="login-box">
+      <h2>Login</h2>
+      <form action="" method="post">
+           {% csrf_token %}
+        <div class="user-box">
+          <input type="text" name="Vorname" required="">
+          <label>Vorname</label>
         </div>
-    </body>
+        <div class="user-box">
+          <input type="text" name="Nachname" required="">
+          <label>Nachname</label>
+        </div>
+        <div class="user-box">
+          <input type="text" name="username" required="">
+          <label>Username</label>
+        </div>
+        <div class="user-box">
+          <input type="password" name="password" required="">
+          <label>Password</label>
+        </div>
+        <div class="user-box">
+                <input type="email" name="email" required="">
+            <label>Email</label>
+        </div>
+          {% if error %}
+        <p style="color: white">Ihre Anmeldedaten waren falsch</p>
+        {% endif %}
+        <button type="submit" class="button">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Login
+        </button>
+      </form>
+    </div>
 </html>
