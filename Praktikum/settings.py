@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-=c-%8!h9j(eiin=+(1ftr!mn0+f_ur1ice@s3aayvbzb(e3rbu
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = "Buchungssystem.UserProfile"
 
 # Application definition
 

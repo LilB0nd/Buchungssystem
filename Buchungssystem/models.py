@@ -1,6 +1,11 @@
+from django.contrib.auth import authenticate
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django import forms
+from django.contrib.auth.models import AbstractUser
+
+
 # # Create your models here.
 
 
@@ -28,16 +33,14 @@ class Classes(models.Model):
     def __str__(self):
         return str('Klasse ' + self.name)
 
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    classes = models.ForeignKey(Classes, on_delete=models.CASCADE)
+class UserProfile(AbstractUser):
+    email = models.EmailField(('email address'),unique=True, blank=False,default="maxmustermann@schule.bremen.de")
+    classes = models.ForeignKey(Classes, on_delete=models.CASCADE, null=True, blank=True)
     letter_of_acceptance = models.BooleanField(default=False)
     induction_course = models.BooleanField(default=False)
-    course_date = models.DateField(blank=True, null=True)
+    course_date = models.DateField(blank=True, null=True, default=timezone.now())
 
-    def __str__(self):
-        return str(self.user.username)
+
 
 
 class Appointment(models.Model):
