@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.db import models
 from django.contrib.auth.models import User
@@ -14,8 +15,7 @@ class Equipment(models.Model):
     description = models.TextField(max_length=300, null=True, blank=True)
     brand = models.CharField(max_length=30, null=True, blank=True)
     model = models.CharField(max_length=30, null=True, blank=True)
-    now = timezone.now()
-    purchase_date = models.DateField(default=now)
+    purchase_date = models.DateField(default=timezone.now)
     qualification = models.TextField(max_length=300)
     room = models.CharField(max_length=5, null=True, blank=True)
 
@@ -38,8 +38,7 @@ class UserProfile(AbstractUser):
     classes = models.ForeignKey(Classes, on_delete=models.CASCADE, null=True, blank=True)
     letter_of_acceptance = models.BooleanField(default=False)
     induction_course = models.BooleanField(default=False)
-    course_date = models.DateField(blank=True, null=True, default=timezone.now())
-
+    course_date = models.DateField(blank=True, null=True, default=timezone.now)
 
 
 
