@@ -6,11 +6,12 @@ from django.views import generic
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from Buchungssystem.models import *
+from verify_email.email_handler import send_verification_email
 # Create your views here.
 
 
 class Login(LoginView):
-    template_name = 'registration/login.html'
+    template_name = "registration/login.html"
 
     def post(self, request, *args, **kwargs):
         username = request.POST['username']
@@ -29,6 +30,7 @@ class SignUP(generic.CreateView):
         form = UserCreateForm(request.POST)
         if form.is_valid():
             print("TEST")
+            inactive_user = send_verification_email(request, form)
 
     """ 
     template_name = 'registration/register.html'

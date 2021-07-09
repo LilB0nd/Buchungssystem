@@ -20,5 +20,6 @@ from Buchungssystem.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', Login.as_view(), name='login'),
-    path('signup/', SignUP.as_view(), name='register')
+    path('signup/', SignUP.as_view(), name='register'),
+    path('verification/', include('verify_email.urls'))
 ]
