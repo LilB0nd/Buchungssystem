@@ -65,10 +65,8 @@ class SignUP(generic.CreateView):
                 form = UserCreateForm()
             return render(request, 'registration/register.html', {'form': form})
 
-
-
     def activate(request, uidb64, token):
-        try:
+        try:  # TRY
             uid = force_text(urlsafe_base64_decode(uidb64))
             user = UserProfile.objects.get(pk=uid)
         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
