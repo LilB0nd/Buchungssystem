@@ -1,0 +1,17 @@
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <title>Kalendar</title>
+        <link rel="stylesheet" href="/static/CSS/calendar.css">
+    </head>
+    <div class="calendar_con">
+      <h2>Calendar</h2>
+        {% for line in cur_view %}
+            {% for day in line %}
+                <div class="day_con">
+                </div>
+            {% endfor %}
+            <br>
+        {% endfor %}
+    </div>
+</html>

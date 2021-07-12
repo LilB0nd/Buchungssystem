@@ -14,6 +14,9 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 # Create your views here.
 
+class Calendar(generic.CreateView):
+    template_name = "Kalendar/CalendarLen.html"
+
 
 class Login(LoginView):
     template_name = 'registration/login.html'
