@@ -79,3 +79,19 @@ class SignUP(generic.CreateView):
             return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
         else:
             return HttpResponse('Activation link is invalid!')
+
+
+class EquipmentView(generic.ListView):
+
+    template_name = "geräte.html"
+    context_object_name = 'equipment_list'
+    model = Equipment
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        equipment_list = Equipment.objects.all()
+
+        context['all'] = equipment_list
+
+        return context

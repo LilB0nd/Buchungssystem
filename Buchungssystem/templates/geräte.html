@@ -1,0 +1,19 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+        <title>Geräte</title>
+        <link rel="stylesheet" href="/static/CSS/equipment.css">
+</head>
+<body>
+    <div class="over_view">
+       <h1>Geräte</h1>
+        {% for i in equipment_list %}
+            <h2>{{ i.name }}</h2>
+            <p>{{ i.description }}</p>
+            <p>Steht in Raum {{ i.room }}</p>
+        {% endfor %}
+    </div>
+
+
+</body>
+</html>
