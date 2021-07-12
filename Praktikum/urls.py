@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', Login.as_view(), name='login'),
     path('signup/', SignUP.as_view(), name='signup'),
+    path('CalendarLen/', Calendar.as_view(), name=Calendar),
     path('activate/<uidb64>/<token>/', SignUP.activate, name='activate'),
     path('equipment/', EquipmentView.as_view(), name='equipment' )
 ]
