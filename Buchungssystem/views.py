@@ -83,7 +83,7 @@ class SignUP(generic.CreateView):
 
 class EquipmentView(generic.ListView):
 
-    template_name = "geräte.html"
+    template_name = "Geräte/geräte.html"
     context_object_name = 'equipment_list'
     model = Equipment
 
@@ -95,3 +95,11 @@ class EquipmentView(generic.ListView):
         context['all'] = equipment_list
 
         return context
+
+
+class DeviceView(generic.DetailView):
+
+    template_name = "Geräte/detail_view.html"
+    context_object_name = 'Device'
+    model = Equipment
+
