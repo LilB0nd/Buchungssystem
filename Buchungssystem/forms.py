@@ -1,7 +1,8 @@
 from django import forms
 from Buchungssystem.models import UserProfile, Classes
 from django.contrib.auth.forms import UserCreationForm
-
+from django.forms import ModelForm
+from Buchungssystem.models import UserProfile
 
 
 class UserCreateForm(UserCreationForm):

@@ -23,4 +23,5 @@ urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('signup/', SignUP.as_view(), name='signup'),
     path('activate/<uidb64>/<token>/', SignUP.activate, name='activate'),
+    path('equipment/', EquipmentView.as_view(), name='equipment' )
 ]
