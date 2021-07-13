@@ -17,9 +17,9 @@ body {
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: rgba(0,0,0,.5);
+  background: #0d131e;
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  box-shadow: 0 15px 25px #0d131e;
   border-radius: 10px;
 }
 
@@ -39,7 +39,7 @@ body {
   padding: 10px 0 !important;
   font-size: 16px !important;
   color: #FFF !important;
-  margin-bottom: 30px !important;
+  margin-bottom: 15px !important;
   border: none !important;
   border-bottom: 1px solid #FFF !important;
   outline: none !important;
@@ -168,7 +168,7 @@ body {
   }
 }
 .button {
-  background: #0c131d;
+  background: #0d131e;
   border: 0 solid;
   position: relative;
   display: inline-block;
@@ -197,4 +197,50 @@ input:-webkit-autofill:active{
   font-size: 12px;
   float: left;
   text-decoration: none;
+}
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dashed white; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 600px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: -125%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }

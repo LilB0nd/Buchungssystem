@@ -1,0 +1,77 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+        @media screen {
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 700;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: italic;
+                font-weight: 400;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: italic;
+                font-weight: 700;
+            }
+        }
+
+        /* CLIENT-SPECIFIC STYLES */
+        body,
+        table,
+        td,
+        a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table,
+        td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            -ms-interpolation-mode: bicubic;
+        }
+
+        /* RESET STYLES */
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+
+        table {
+            border-collapse: collapse !important;
+        }
+
+        body {
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+        .cfm_acc{
+            border-radius: 3px;
+            background: #FFA73B;
+            text-align: center;
+            font-size: 20px;
+            font-family: 'Roboto', sans-serif;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 15px 25px;
+            border: 1px solid #FFA73B;
+            display: inline-block;
+        }

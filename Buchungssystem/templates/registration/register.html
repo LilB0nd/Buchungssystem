@@ -2,50 +2,41 @@
 
     <head>
         <meta charset="UTF-8">
-      <link href="/static/CSS/login.css" type="text/css" rel="stylesheet"/>
+        <link href="/static/CSS/login.css" rel="stylesheet"/>
         <title>SignUp</title>
+        <link rel="stylesheet" href="/static/CSS/login.css">
     </head>
     <div class="login-box">
-      <h2>Login</h2>
+      <h2>Registrierung</h2>
+
       <form action="" method="post">
-           {% csrf_token %}
-      <div class="user-box">
-                <input type="email" name="email" required="">
-            <label>Email</label>
-        </div>
-        <div class="user-box">
-            <div class="user-box">
-          <input type="text" name="username" required="">
-          <label>Username</label>
-        </div>
-          <input type="text" name="firstname" required="">
-          <label>Vorname</label>
-        </div>
-        <div class="user-box">
-          <input type="text" name="lastname" required="">
-          <label>Nachname</label>
-        </div>
+          {% csrf_token %}
+            {% for field in form %}
+                <div class="user-box">
+                    <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                    </p>
+                </div>
+            {% endfor %}
+            <div class="tooltip" style="color: white">Passwortbedingungen
+                <span class="tooltiptext">
+                    Das Passwort darf nicht zu ähnlich zu anderen persönlichen Informationen sein.<br>
+                    Das Passwort muss mindestens 8 Zeichen enthalten.<br>
+                    Das Passwort darf nicht allgemein üblich sein.<br>
+                    Das Passwort darf nicht komplett aus Ziffern bestehen.</span>
+            </div>
+        <button type="submit" class="button" name="verification" value="True">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                registrieren
+            </button>
 
-        <div class="user-box">
-          <input type="password" name="password" required="">
-          <label>Password</label>
-        </div>
-      <div class="user-box">
-          <input type="password" name="password_check" required="">
-          <label>Password bestätigen</label>
-        </div>
-
-          {% if error %}
-        <p style="color: white">Ihre Anmeldedaten waren falsch</p>
-        {% endif %}
-        <button type="submit" class="button">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          Login
-        </button>
-        <p class="message">Noch keinen Account? <a href="#">Erstelle einen Account</a></p>
       </form>
     </div>
 </html>

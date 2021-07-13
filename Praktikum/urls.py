@@ -15,11 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 from Buchungssystem.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', Login.as_view(), name='login'),
-    path('signup/', SignUP.as_view(), name='register'),
-    path('verification/', include('verify_email.urls'))
+    path('signup/', SignUP.as_view(), name='signup'),
+    path('CalendarLen/', Calendar.as_view(), name='calendar'),
+    path('activate/<uidb64>/<token>/', SignUP.activate, name='activate'),
+    path('equipment/', EquipmentView.as_view(), name='equipment'),
+    url(r'^Device/(?P<pk>.+)/$', DeviceView.as_view(), name='Device'),
 ]

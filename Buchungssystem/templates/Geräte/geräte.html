@@ -1,0 +1,27 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+        <title>Geräte</title>
+        <link rel="stylesheet" href="/static/CSS/equipment.css">
+</head>
+<body>
+    <div class="over_view">
+       <h1>Geräte</h1>
+
+        {% for device in equipment_list %}
+            <div>
+                <div style="float:left; width: 50%; display:table">
+                    <a href="http://127.0.0.1:8000/Device/{{ device.id }}"><h2>{{ device.name }}</h2></a>
+                    <p>{{ device.description }}</p>
+                    <p>Steht in Raum {{ device.room }}</p>
+                </div>
+                <div style="float: right; width: 50%; display: table; height: 101px;">
+                    <p>Test</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+</body>
+</html>
