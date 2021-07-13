@@ -26,4 +26,5 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', SignUP.activate, name='activate'),
     path('equipment/', EquipmentView.as_view(), name='equipment'),
     url(r'^Device/(?P<pk>.+)/$', DeviceView.as_view(), name='Device'),
+    path('users/', Userview.as_view(), name='Lehreransicht')
 ]
