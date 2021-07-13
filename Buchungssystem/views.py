@@ -15,7 +15,7 @@ from django.core.mail import EmailMessage
 # Create your views here.
 
 class Calendar(generic.CreateView):
-    template_name = "Kalendar/CalendarLen.html"
+    template_name = "Kalender/CalendarLen.html"
 
 
 class Login(LoginView):
@@ -110,8 +110,13 @@ class DeviceView(generic.DetailView):
     context_object_name = 'Device'
     model = Equipment
 
-class Userview(generic.TemplateView):
-    template_name = 'Lehreransicht.html'
+class Userview(generic.DetailView):
+    template_name = "User/Users.html"
+    context_object_name = "users"
+    model = UserProfile
+
+class Usersview(generic.TemplateView):
+    template_name = 'User/Lehreransicht.html'
     def get_context_data(self, **kwargs):
         user = UserProfile.objects.all()
         dic = {

@@ -9,8 +9,8 @@
     {% for field in User  %}
         <div>
             <div style="float:left; width: 50%; display:table">
-                <a href="https://127.0.0.1:8000/users/{{ field.id }}"><h2>{{ field.username }}</h2></a>
-                <p>{{ field.induction_course }} {{ field.course_date }}</p>
+                <a href="http://127.0.0.1:8000/user/{{ field.id }}"><h2>{{ field.username }}</h2></a>
+                <p>Kursbelegt: {{ field.induction_course }} Datum: {{ field.course_date }}</p>
                 <p>Klasse: {{ field.classes }}</p>
             </div>
         </div>
