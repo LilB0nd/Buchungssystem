@@ -1,3 +1,4 @@
+
 from django.contrib.auth.views import LoginView
 from Buchungssystem.forms import UserCreateForm
 from django.shortcuts import render
@@ -9,14 +10,13 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
-from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 # Create your views here.
 
 
 class Calendar(generic.CreateView):
-    template_name = "Kalendar/CalendarLen.html"
+    template_name = "Kalender/CalendarLen.html"
 
 
 class Login(LoginView):
@@ -100,13 +100,11 @@ class EquipmentView(generic.ListView):
     context_object_name = 'equipment_list'
     model = Equipment
 
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-
         equipment_list = Equipment.objects.all()
-
         context['all'] = equipment_list
-
         return context
 
 
@@ -116,3 +114,16 @@ class DeviceView(generic.DetailView):
     context_object_name = 'Device'
     model = Equipment
 
+class Userview(generic.DetailView):
+    template_name = "User/Users.html"
+    context_object_name = "users"
+    model = UserProfile
+
+class Usersview(generic.TemplateView):
+    template_name = 'User/Lehreransicht.html'
+    def get_context_data(self, **kwargs):
+        user = UserProfile.objects.all()
+        dic = {
+            "User" : user
+        }
+        return dic
