@@ -5,19 +5,17 @@ from django.core.exceptions import ValidationError
 
 class UserCreateForm(UserCreationForm):
     email = forms.EmailField(max_length=30, required=True, help_text='Ihre Schulmail')
-    username = forms.CharField(max_length=30, required=True)
     #classes = forms.CharField(choices=Classes.objects.all())
 
     class Meta:
         model = UserProfile
-        fields = ('email', 'username')
+        fields = ('email',)
 
-    def clean(self):
-        if "@schule.bremen.de" not in self.email:
+    def clean_email(self, *args, **kwargs):
+        email = self.cleaned_data.get('email')
+        if "@schule.bremen.de" not in email:
             print('FEHLER')
-            raise ValidationError({"error_message": "Bitte eine gültige Schulemail angeben"})
+            raise forms.ValidationError("Bitte eine gültige Schul-Mail angeben")
 
         else:
-            stremail = str(self.email)
-            splittedmail = stremail.split('@')
-            self.username = splittedmail[0]
+            return email
