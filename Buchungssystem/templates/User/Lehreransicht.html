@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lehreransicht</title>
+    <link rel="" href="" >
+</head>
+<body>
+    {% for field in User  %}
+        <div>
+            <div style="float:left; width: 50%; display:table">
+                <a href="http://127.0.0.1:8000/user/{{ field.id }}"><h2>{{ field.username }}</h2></a>
+                <p>Kursbelegt: {{ field.induction_course }} Datum: {{ field.course_date }}</p>
+                <p>Klasse: {{ field.classes }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
+</body>
+</html>ss

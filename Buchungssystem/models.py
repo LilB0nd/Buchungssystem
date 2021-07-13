@@ -36,20 +36,18 @@ class UserProfile(AbstractUser):
     classes = models.ForeignKey(Classes, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Klasse")
     letter_of_acceptance = models.BooleanField(default=False, verbose_name="Einverständniserklärung")
     induction_course = models.BooleanField(default=False, verbose_name="Kurs belegt")
-    course_date = models.DateField(blank=True, null=True, default=timezone.now, verbose_name="Kursbelegungsdatum")
+    course_date = models.DateField(blank=True, null=True, verbose_name="Kursbelegungsdatum")
 
     def save(self, *args, **kwargs):
-
+        super(UserProfile, self).save(*args, **kwargs)
         stremail = str(self.email)
         if stremail[1] == '.':
-            teacher_group = Group.objects.get_or_create(name='teacher')
+            teacher_group = Group.objects.get_or_create(name='Lehrer',)
             teacher_group[0].user_set.add(self)
         else:
-            student_group = Group.objects.get_or_create(name='student')
-
+            student_group = Group.objects.get_or_create(name='Schüler')
             student_group[0].user_set.add(self)
 
-        print(self.user_permissions)
         super(UserProfile, self).save(*args, **kwargs)
 
 
