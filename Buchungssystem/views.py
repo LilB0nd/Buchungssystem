@@ -66,7 +66,7 @@ class SignUP(generic.CreateView):
                     mail_subject, message, to=[to_email]
                 )
                 email.send()
-                return HttpResponse('Please confirm your email address to complete the registration')
+                return render(request,'registration/email_sent.html', {'form': form})
             else:
                 pass
             return render(request, 'registration/register.html', {'form': form})
