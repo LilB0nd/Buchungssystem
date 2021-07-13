@@ -1,14 +1,11 @@
-from django.contrib.auth import authenticate
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission, ContentType
 from django.utils import timezone
-from django import forms
 from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import ValidationError
+
 
 
 # # Create your models here.
-
 
 class Equipment(models.Model):
     name = models.CharField(max_length=90)
@@ -35,24 +32,25 @@ class Classes(models.Model):
 
 
 class UserProfile(AbstractUser):
-
-
-    email = models.EmailField(('email address'), unique=True, blank=False, default="maxmustermann@schule.bremen.de")
+    email = models.EmailField('email address', unique=True, blank=False, default="maxmustermann@schule.bremen.de")
     classes = models.ForeignKey(Classes, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Klasse")
     letter_of_acceptance = models.BooleanField(default=False, verbose_name="Einverständniserklärung")
     induction_course = models.BooleanField(default=False, verbose_name="Kurs belegt")
-    course_date = models.DateField(blank=True, null=True, default=timezone.now(), verbose_name="Kursbelegungsdatum")
-    Teacher = models.BooleanField(default=False, verbose_name="Lehrer")
-    def save(self,*args,**kwargs):
-        super(UserProfile,self).save(*args, **kwargs)
+    course_date = models.DateField(blank=True, null=True, default=timezone.now, verbose_name="Kursbelegungsdatum")
+
+    def save(self, *args, **kwargs):
+
         stremail = str(self.email)
-        if "@schule.bremen.de" not in self.email:
-            raise ValidationError("Bitte eine gültige Schulemail angeben")
-        else:
-            splittedmail = stremail.split('@')
-            self.username = splittedmail[0]
         if stremail[1] == '.':
-            self.Teacher = True
+            teacher_group = Group.objects.get_or_create(name='teacher')
+            teacher_group[0].user_set.add(self)
+        else:
+            student_group = Group.objects.get_or_create(name='student')
+
+            student_group[0].user_set.add(self)
+
+        print(self.user_permissions)
+        super(UserProfile, self).save(*args, **kwargs)
 
 
 

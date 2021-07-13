@@ -42,13 +42,16 @@ class SignUP(generic.CreateView):
     def post(self, request, *args, **kwargs):
         if "verification" in self.request.POST:
             email = self.request.POST['email']
-            print(email)
+            print(email.split('@'))
             form = UserCreateForm(request.POST)
-            print(form.errors)
             if form.is_valid():
                 user = form.save(commit=False)
+                print(dir(user))
+                print()
+                print()
+                print(vars(user))
                 user.is_active = False
-                user.save()
+                #user.save()
                 current_site = get_current_site(request)
                 mail_subject = 'Activate your blog account.'
                 message = render_to_string('registration/acc_active_email.html', {
@@ -64,7 +67,6 @@ class SignUP(generic.CreateView):
                 email.send()
                 return HttpResponse('Please confirm your email address to complete the registration')
             else:
-                print('is nicht valid')
                 form = UserCreateForm()
             return render(request, 'registration/register.html', {'form': form})
 
@@ -82,6 +84,10 @@ class SignUP(generic.CreateView):
             return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
         else:
             return HttpResponse('Activation link is invalid!')
+
+
+class Calender1(generic.ListView):
+    pass
 
 
 class EquipmentView(generic.ListView):
