@@ -51,13 +51,6 @@
         border-radius: 5px;
         box-shadow: 3px 3px #d94c53;
       }
-
-      .subtle-link {
-        font-size: 9px;
-        text-transform:uppercase;
-        letter-spacing: 1px;
-        color: #CBD6E2;
-      }
       body{
         background: radial-gradient(#141e30, #243b55);
       }
@@ -67,11 +60,11 @@
   <body style="width: 100%; margin: auto 0; padding:0; font-family:Lato, sans-serif; font-size:18px; color:#33475B; word-break:break-word">
 
     <div id="email">
-        <table role="presentation" width="100%">
+        <table role="presentation" width="100%" style="background-color: rgb(30,123,188);">
             <tr>
-              <td bgcolor="#00A4BD" align="center" style="color: white;">
-             <img alt="Flower" src="https://hs-8886753.f.hubspotemail.net/hs/hsstatic/TemplateAssets/static-1.60/img/hs_default_template_images/email_dnd_template_images/ThankYou-Flower.png" width="400px" align="middle">
-                <h1> Welcome! </h1>
+              <td align="center" style="color: white; background-color: rgb(30,123,188)">
+             <img alt="Flower" src="/static/img/Schul_Logo.png" width="300px" align="middle">
+                <h1> Willkommen! </h1>
               </td>
         </table>
       <table role="presentation" border="0" cellpadding="0" cellspacing="10px" style="padding: 30px 30px 30px 60px;">
@@ -81,9 +74,11 @@
                 <p>
                   Vielen Dank für ihre Registrierung bei unserem Buchungssystem . Sie müssen nun ihre Email Adresse bestätigen. mit dem unten vorliegendem Button gelangen sie direkt zur Anmeldeseite der Schulmail.
                 </p>
+               <form method="get" action="https://mail.schule.bremen.de/horde/login.php">
                     <button>
                       Zur Anmeldung
                     </button>
+               </form>
               </td>
               </tr>
       </table>
