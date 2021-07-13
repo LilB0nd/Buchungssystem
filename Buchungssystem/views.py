@@ -1,4 +1,3 @@
-
 from django.contrib.auth.views import LoginView
 from Buchungssystem.forms import UserCreateForm
 from django.shortcuts import render
@@ -10,6 +9,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
+from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 # Create your views here.
@@ -58,9 +58,6 @@ class SignUP(generic.CreateView):
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': account_activation_token.make_token(user),
                 })
-                print(message)
-                print(urlsafe_base64_encode(force_bytes(user.pk)))
-                print(account_activation_token.make_token(user))
                 to_email = form.cleaned_data.get('email')
                 email = EmailMessage(
                     mail_subject, message, to=[to_email]
@@ -73,11 +70,8 @@ class SignUP(generic.CreateView):
 
     def activate(request, uidb64, token):
         try:  # TRY
-            print(1)
             uid = force_text(urlsafe_base64_decode(uidb64))
-            print(2)
             user = UserProfile.objects.get(pk=uid)
-            print(3)
         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         if user is not None and account_activation_token.check_token(user, token):
@@ -85,7 +79,7 @@ class SignUP(generic.CreateView):
             user.save()
             login(request, user)
             # return redirect('home')
-            return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+            return render(request, 'registration/login.html', {'username': user.username})
         else:
             return HttpResponse('Activation link is invalid!')
 
@@ -100,7 +94,6 @@ class EquipmentView(generic.ListView):
     context_object_name = 'equipment_list'
     model = Equipment
 
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         equipment_list = Equipment.objects.all()
@@ -114,16 +107,17 @@ class DeviceView(generic.DetailView):
     context_object_name = 'Device'
     model = Equipment
 
+
 class Userview(generic.DetailView):
     template_name = "User/Users.html"
     context_object_name = "users"
     model = UserProfile
 
+
 class Usersview(generic.TemplateView):
     template_name = 'User/Lehreransicht.html'
+
     def get_context_data(self, **kwargs):
         user = UserProfile.objects.all()
-        dic = {
-            "User" : user
-        }
+        dic = {"User" : user}
         return dic

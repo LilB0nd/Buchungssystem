@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from Buchungssystem.models import UserProfile
-from django.core.exceptions import ValidationError
+
 
 class UserCreateForm(UserCreationForm):
     email = forms.EmailField(max_length=30, required=True, help_text='Ihre Schulmail')
