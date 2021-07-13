@@ -1,13 +1,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ Device.name }}</title>
 </head>
 <body>
-    <h1>{{ Device.name }}</h1>
-    <p>Steht in Raum : {{ Device.room }}</p>
-    <p>{{ Device.description }}</p>
+    <div>
+        <h1>{{ Device.name }}</h1>
+            <p>Raum : <input type="text" name="Room" value="{{ Device.room }}" {{ permission }}></p>
+            <p>Beschreibung: <input type="text" name="Beschreibung" value="{{ Device.description }}" {{ permission }}></p>
+            <p>Marke:<input type="text" name="Brand" value="{{ Device.brand }}" {{ permission }}></p>
+            <p>Kauf Datum:<input type="text" name="Date" value="{{ Device.purchase_date }}" {{ permission }}></p>
+            <p>Anforderung:<input type="text" name="Quali" value="{{ Device.qualification }}" {{ permission }}></p>
 
 
+    </div>
+    {% if not permission %}
+        <button>Bearbeiten</button>
+        <p>{{ group }}</p>
+    {% endif %}
 </body>
 </html>
