@@ -1,3 +1,4 @@
+
 from django.contrib.auth.views import LoginView
 from Buchungssystem.forms import UserCreateForm
 from django.shortcuts import render
@@ -13,6 +14,7 @@ from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 # Create your views here.
+
 
 class Calendar(generic.CreateView):
     template_name = "Kalendar/CalendarLen.html"
@@ -42,16 +44,13 @@ class SignUP(generic.CreateView):
     def post(self, request, *args, **kwargs):
         if "verification" in self.request.POST:
             email = self.request.POST['email']
-            print(email.split('@'))
+            email = email.split('@')
             form = UserCreateForm(request.POST)
             if form.is_valid():
                 user = form.save(commit=False)
-                print(dir(user))
-                print()
-                print()
-                print(vars(user))
+                user.username = email[0]
                 user.is_active = False
-                #user.save()
+                user.save()
                 current_site = get_current_site(request)
                 mail_subject = 'Activate your blog account.'
                 message = render_to_string('registration/acc_active_email.html', {
@@ -81,7 +80,7 @@ class SignUP(generic.CreateView):
             user.save()
             login(request, user)
             # return redirect('home')
-            return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+            return render(request, 'registration/login.html')
         else:
             return HttpResponse('Activation link is invalid!')
 
@@ -95,6 +94,7 @@ class EquipmentView(generic.ListView):
     template_name = "Geräte/geräte.html"
     context_object_name = 'equipment_list'
     model = Equipment
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -130,5 +130,18 @@ class DeviceView(generic.DetailView):
 
         return context
 
-    def post(self):
-        pass
+class Userview(generic.DetailView):
+    template_name = "User/Users.html"
+    context_object_name = "users"
+    model = UserProfile
+
+
+
+
+class Usersview(generic.TemplateView):
+    template_name = 'User/Lehreransicht.html'
+
+    def get_context_data(self, **kwargs):
+        user = UserProfile.objects.all()
+        dic = {"User" : user}
+        return dic

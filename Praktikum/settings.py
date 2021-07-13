@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'verify_email.apps.VerifyEmailConfig',
     'Buchungssystem.apps.BuchungssystemConfig',
 ]
 

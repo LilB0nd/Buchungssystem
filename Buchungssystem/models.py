@@ -51,8 +51,6 @@ class UserProfile(AbstractUser):
         super(UserProfile, self).save(*args, **kwargs)
 
 
-
-
 class Appointment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="Benutzer")
     Equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE, verbose_name="Gerät")
