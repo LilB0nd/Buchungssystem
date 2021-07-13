@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 # Create your views here.
 
+
 class Calendar(generic.CreateView):
     template_name = "Kalendar/CalendarLen.html"
 
@@ -42,16 +43,13 @@ class SignUP(generic.CreateView):
     def post(self, request, *args, **kwargs):
         if "verification" in self.request.POST:
             email = self.request.POST['email']
-            print(email.split('@'))
+            email = email.split('@')
             form = UserCreateForm(request.POST)
             if form.is_valid():
                 user = form.save(commit=False)
-                print(dir(user))
-                print()
-                print()
-                print(vars(user))
+                user.username = email[0]
                 user.is_active = False
-                #user.save()
+                user.save()
                 current_site = get_current_site(request)
                 mail_subject = 'Activate your blog account.'
                 message = render_to_string('registration/acc_active_email.html', {
@@ -60,6 +58,9 @@ class SignUP(generic.CreateView):
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': account_activation_token.make_token(user),
                 })
+                print(message)
+                print(urlsafe_base64_encode(force_bytes(user.pk)))
+                print(account_activation_token.make_token(user))
                 to_email = form.cleaned_data.get('email')
                 email = EmailMessage(
                     mail_subject, message, to=[to_email]
@@ -67,13 +68,16 @@ class SignUP(generic.CreateView):
                 email.send()
                 return HttpResponse('Please confirm your email address to complete the registration')
             else:
-                form = UserCreateForm()
+                pass
             return render(request, 'registration/register.html', {'form': form})
 
     def activate(request, uidb64, token):
         try:  # TRY
+            print(1)
             uid = force_text(urlsafe_base64_decode(uidb64))
+            print(2)
             user = UserProfile.objects.get(pk=uid)
+            print(3)
         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         if user is not None and account_activation_token.check_token(user, token):
