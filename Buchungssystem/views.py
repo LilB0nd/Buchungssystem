@@ -118,28 +118,29 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        print("test")
         user = self.request.user
         group = Group.objects.get(user=user)
 
-        if group.name == "student":
-            print("test")
+        if group.name == "Schüler":
             permission = "readonly"
         else:
             permission = None
-            print("moin")
 
         context['group'] = group
         context["permission"] = permission
 
         return context
 
+    def post(self, *args, **kwargs):
+        if "save" in self.request.POST:
+            print("test")
+
+
+
 class Userview(generic.DetailView):
     template_name = "User/Users.html"
     context_object_name = "users"
     model = UserProfile
-
-
 
 
 class Usersview(generic.TemplateView):
