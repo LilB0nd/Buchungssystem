@@ -101,8 +101,19 @@ class EquipmentView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        user = self.request.user
+        group = Group.objects.get(user=user)
         equipment_list = Equipment.objects.all()
+
+        if group.name == "Schüler":
+            permission = "readonly"
+        else:
+            permission = None
+
+        context['group'] = group
+        context["permission"] = permission
+
+
 
         context['all'] = equipment_list
 
@@ -132,9 +143,19 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
         return context
 
     def post(self, *args, **kwargs):
-        if "save" in self.request.POST:
-            print("test")
 
+        # Save the changes of Device
+        device = Equipment.objects.get(id=self.request.POST['ID'] )
+        device.room = self.request.POST['Room']
+        device.description = self.request.POST['Beschreibung']
+        device.brand = self.request.POST['Brand']
+        device.model = self.request.POST['Model']
+        device.qualification = self.request.POST['Quali']
+        device.save()
+
+        respone = HttpResponse()
+        respone.status_code = 204
+        return respone
 
 
 class Userview(generic.DetailView):

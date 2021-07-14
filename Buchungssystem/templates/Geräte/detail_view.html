@@ -5,18 +5,20 @@
 </head>
 <body>
     <form action="" method="post">
+    {% csrf_token %}
     <div>
         <h1>{{ Device.name }}</h1>
+        <p>ID:<input type="text" name="ID" value="{{ Device.id }}" readonly></p>
         <p>Raum : <input type="text" name="Room" value="{{ Device.room }}" {{ permission }}></p>
+        <p>Marke:<input type="text" name="Brand" value="{{ Device.brand }}" readonly></p>
+        <p>Model:<input type="text" name="Model" value="{{ Device.model }}" readonly></p>
+        <p>Kauf Datum:<input type="text" name="Date" value="{{ Device.purchase_date }}" readonly></p>
+        <br>
         <p>Beschreibung: <input type="text" name="Beschreibung" value="{{ Device.description }}" {{ permission }}></p>
-        <p>Marke:<input type="text" name="Brand" value="{{ Device.brand }}" {{ permission }}></p>
-        <p>Model:<input type="text" name="Model" value="{{ Device.model }}" {{ permission }}></p>
-        <p>Kauf Datum:<input type="text" name="Date" value="{{ Device.purchase_date }}" {{ permission }}></p>
         <p>Anforderung:<input type="text" name="Quali" value="{{ Device.qualification }}" {{ permission }}></p>
     </div>
     {% if not permission %}
         <button type="submit" name="save">Save</button>
-        <p>{{ group }}</p>
     {% endif %}
     </form>
 </body>

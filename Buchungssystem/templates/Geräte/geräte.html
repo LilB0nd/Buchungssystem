@@ -21,6 +21,14 @@
             </div>
         {% endfor %}
     </div>
+    <div style="float: bottom">
+        <form action="" method="post">
+        {% csrf_token %}
+            {% if not permission %}
+            <button type="submit" name="add">Hinzufügen</button>
+            {% endif %}
+        </form>
+    </div>
 
 
 </body>
