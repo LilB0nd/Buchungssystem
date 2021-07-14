@@ -4,9 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 
-
-# # Create your models here.
-
+#  Create your models here.
 class Equipment(models.Model):
     name = models.CharField(max_length=90)
     description = models.TextField(max_length=300, null=True, blank=True)

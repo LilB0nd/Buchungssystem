@@ -13,6 +13,8 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Create your views here.
 
 
@@ -89,8 +91,9 @@ class Calender1(generic.ListView):
     pass
 
 
-class EquipmentView(generic.ListView):
-
+class EquipmentView(LoginRequiredMixin, generic.ListView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = "Geräte/geräte.html"
     context_object_name = 'equipment_list'
     model = Equipment
@@ -106,8 +109,9 @@ class EquipmentView(generic.ListView):
         return context
 
 
-class DeviceView(generic.DetailView):
-
+class DeviceView(LoginRequiredMixin, generic.DetailView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = "Geräte/detail_view.html"
     context_object_name = 'Device'
     model = Equipment
@@ -143,5 +147,5 @@ class Usersview(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         user = UserProfile.objects.all()
-        dic = {"User" : user}
+        dic = {"User": user}
         return dic
