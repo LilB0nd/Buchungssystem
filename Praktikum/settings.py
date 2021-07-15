@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Buchungssystem.apps.BuchungssystemConfig',
+    'bootstrap_datepicker_plus',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
 
 ROOT_URLCONF = 'Praktikum.urls'
 
@@ -132,3 +136,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'noreply.szut.buchung@gmail.com'
 EMAIL_HOST_PASSWORD = '%?DKhHjt$vsLm4!QAzurs$-uS?FDm855'
 EMAIL_PORT = 587
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}

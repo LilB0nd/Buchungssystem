@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from Buchungssystem.models import UserProfile
+from Buchungssystem.models import UserProfile, Appointment
+from bootstrap_datepicker_plus import DateTimePickerInput
 
 
 class UserCreateForm(UserCreationForm):
@@ -19,3 +20,18 @@ class UserCreateForm(UserCreationForm):
 
         else:
             return email
+
+
+class CalenderForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['start_date', 'end_date']
+        widgets = {
+            'start_date': DateTimePickerInput(options={"format": 'DD.MM.YYYY HH:mm',
+                                                       'sideBySide': True,
+                                                       'calendarWeeks': True}),
+            'end_date': DateTimePickerInput(options={"format": 'DD.MM.YYYY HH:mm',
+                                                     'sideBySide': True,
+                                                     'calendarWeeks': True}),
+        }
+

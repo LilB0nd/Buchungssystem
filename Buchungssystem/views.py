@@ -1,7 +1,6 @@
-
 from django.contrib.auth.views import LoginView
-from Buchungssystem.forms import UserCreateForm
-from django.shortcuts import render
+from Buchungssystem.forms import *
+from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
@@ -66,11 +65,11 @@ class SignUP(generic.CreateView):
                     mail_subject, message, to=[to_email]
                 )
                 email.send()
-                return HttpResponse('Please confirm your email address to complete the registration')
+                return render(request, 'registration/email_sent.html', {'form': form})
             else:
-                form = UserCreateForm()
-            return render(request, 'registration/register.html', {'form': form})
+                return render(request, 'registration/register.html', {'form': form})
 
+    @staticmethod
     def activate(request, uidb64, token):
         try:  # TRY
             uid = force_text(urlsafe_base64_decode(uidb64))
@@ -82,14 +81,34 @@ class SignUP(generic.CreateView):
             user.save()
             login(request, user)
             # return redirect('home')
-            return render(request, 'registration/login.html')
+            return redirect('/login')
         else:
             return HttpResponse('Activation link is invalid!')
 
 
-class Calender1(generic.ListView):
-    pass
+class Appoinment(generic.ListView):
+    template_name = 'appointment.html'
+    model = Appointment
 
+
+    def get_context_data(self, **kwargs):
+        form = CalenderForm()
+        print(form)
+        return {'form': form,}
+
+        #appointment_day_list = Appointment.objects.get(date=selected_date)
+        #group = Group.objects.get(user=user)
+        #context['appointments'] = appointment_day_list
+        #context['user_group'] = group
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+
+        if user.letter_of_acceptance and user.induction_course:
+            pass
+        else:
+            # return hat keine Berechtigung den Raum zu buchen
+            pass
 
 class EquipmentView(LoginRequiredMixin, generic.ListView):
     login_url = '/login/'
@@ -98,14 +117,10 @@ class EquipmentView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'equipment_list'
     model = Equipment
 
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-
         equipment_list = Equipment.objects.all()
-
         context['all'] = equipment_list
-
         return context
 
 
@@ -128,13 +143,11 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
 
         context['group'] = group
         context["permission"] = permission
-
         return context
 
     def post(self, *args, **kwargs):
         if "save" in self.request.POST:
             print("test")
-
 
 
 class Userview(generic.DetailView):
