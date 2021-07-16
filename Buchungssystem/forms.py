@@ -34,7 +34,7 @@ class CalenderForm(forms.ModelForm):
                                                        'calendarWeeks': True,
                                                        'minDate': today,
                                                        'daysOfWeekDisabled': [0, 6],
-                                                       'stepping': 30,
+                                                       'stepping': 15,
                                                        'disabledHours': [0, 1, 2, 3, 4, 5, 6, 17, 18, 19, 20, 21, 22,
                                                                          23, 24]
                                                        }, attrs={'required': True}),
