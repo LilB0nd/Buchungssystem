@@ -90,25 +90,27 @@ class Appoinment(generic.ListView):
     template_name = 'appointment.html'
     model = Appointment
 
-
     def get_context_data(self, **kwargs):
         form = CalenderForm()
-        print(form)
-        return {'form': form,}
+        device = Equipment.objects.all()
+        return {'form': form, 'device': device}
 
-        #appointment_day_list = Appointment.objects.get(date=selected_date)
-        #group = Group.objects.get(user=user)
-        #context['appointments'] = appointment_day_list
-        #context['user_group'] = group
+        # appointment_day_list = Appointment.objects.get(date=selected_date)
+        # group = Group.objects.get(user=user)
+        # context['appointments'] = appointment_day_list
+        # context['user_group'] = group
 
     def post(self, request, *args, **kwargs):
         user = self.request.user
 
         if user.letter_of_acceptance and user.induction_course:
-            pass
+            appointment = Appointment()
+            appointment.user = user
+
         else:
             # return hat keine Berechtigung den Raum zu buchen
             pass
+
 
 class EquipmentView(LoginRequiredMixin, generic.ListView):
     login_url = '/login/'

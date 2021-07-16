@@ -54,8 +54,9 @@ class Appointment(models.Model):
     Equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE, verbose_name="Gerät")
     start_date = models.DateTimeField(verbose_name="Start", blank=True, null=True)
     end_date = models.DateTimeField(verbose_name="Ende", blank=True, null=True)
+
     def __str__(self):
-        return str('Buchung/' + str(self.date) + '/' + str(self.start_time) + '-' + str(self.end_time))
+        return str('Buchung/' + str(self.start_date) + '-' + str(self.end_date))
 
     class Meta:
         verbose_name = 'Buchung'
@@ -65,8 +66,8 @@ class Appointment(models.Model):
 class AnnulatedAppointment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="Benutzer")
     Equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE, verbose_name="Gerät")
-    start_date = models.DateTimeField(verbose_name="Start", blank=True, null=True)
-    end_date = models.DateTimeField(verbose_name="Ende", blank=True, null=True)
+    start_date = models.DateTimeField(verbose_name="Startzeit", blank=True, null=True)
+    end_date = models.DateTimeField(verbose_name="Endzeit", blank=True, null=True)
 
 
 class News(models.Model):
