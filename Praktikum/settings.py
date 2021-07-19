@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'Buchungssystem.apps.BuchungssystemConfig',
     'bootstrap_datepicker_plus',
     'bootstrap4',
+    'bootstrap_daterangepicker'
 ]
 
 MIDDLEWARE = [

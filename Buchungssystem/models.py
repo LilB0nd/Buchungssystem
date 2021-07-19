@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, Group, Permission, ContentType
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-
+from django.core.exceptions import ValidationError
 
 # # Create your models here.
 class Equipment(models.Model):
@@ -62,6 +62,9 @@ class Appointment(models.Model):
         verbose_name = 'Buchung'
         verbose_name_plural = 'Buchungen'
 
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
 
 class AnnulatedAppointment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="Benutzer")

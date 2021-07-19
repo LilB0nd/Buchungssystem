@@ -11,18 +11,14 @@
 </head>
 <body>
 <h1>Buchung</h1>
-<label>
-    <select>
-        {% for device in device %}
-        <option value="{{ device.id }}">{{ device.name }}</option>
-        {% endfor %}
-    </select>
-</label>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Save">
 </form>
+{% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
 </body>
 </html>
 

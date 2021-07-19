@@ -13,7 +13,8 @@ from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from datetime import datetime
+import pytz
 # Create your views here.
 
 
@@ -86,7 +87,7 @@ class SignUP(generic.CreateView):
             return HttpResponse('Activation link is invalid!')
 
 
-class Appoinment(generic.ListView):
+class Appoinment(generic.ListView, LoginRequiredMixin):
     template_name = 'appointment.html'
     model = Appointment
 
@@ -104,12 +105,29 @@ class Appoinment(generic.ListView):
         user = self.request.user
 
         if user.letter_of_acceptance and user.induction_course:
-            appointment = Appointment()
-            appointment.user = user
+            start_date = self.request.POST['start_date']
+            end_date = self.request.POST['end_date']
+            equipment = self.request.POST['Equipment']
+            datetime_start_date = datetime.strptime(start_date, '%d.%m.%Y %H:%M')
+            datetime_end_date = datetime.strptime(end_date, '%d.%m.%Y %H:%M')
+            form = CalenderForm(request.POST)
+            if form.is_valid():
+                new_Appointment = Appointment()
+                new_Appointment.user = user
+                new_Appointment.Equipment = Equipment.objects.get(id=equipment)
+                new_Appointment.start_date = datetime_start_date
+                new_Appointment.end_date = datetime_end_date
+                new_Appointment.save()
+
+            else:
+                return render(request, 'appointment.html', {'form': form})
+                # EndDatum vor dem Startdatum
+            return HttpResponse(start_date)
+
 
         else:
             # return hat keine Berechtigung den Raum zu buchen
-            pass
+            return HttpResponse(user.username)
 
 
 class EquipmentView(LoginRequiredMixin, generic.ListView):
