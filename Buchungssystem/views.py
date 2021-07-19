@@ -98,6 +98,17 @@ class EquipmentView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'equipment_list'
     model = Equipment
 
+    def post(self, *args, **kwargs):
+        if self.request.POST['Name'] != '':
+            new = Equipment.objects.create(name=self.request.POST['Name'])
+            new.save()
+            return HttpResponseRedirect('/Device/'+str(new.id))
+        else:
+
+            respone = HttpResponse()
+            respone.status_code = 204
+            return respone
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -112,9 +123,6 @@ class EquipmentView(LoginRequiredMixin, generic.ListView):
 
         context['group'] = group
         context["permission"] = permission
-
-
-
         context['all'] = equipment_list
 
         return context
@@ -144,18 +152,26 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
 
     def post(self, *args, **kwargs):
 
-        # Save the changes of Device
-        device = Equipment.objects.get(id=self.request.POST['ID'] )
-        device.room = self.request.POST['Room']
-        device.description = self.request.POST['Beschreibung']
-        device.brand = self.request.POST['Brand']
-        device.model = self.request.POST['Model']
-        device.qualification = self.request.POST['Quali']
-        device.save()
+        if "delete" in self.request.POST:
+            print(self.request.POST['ID'])
+            device = Equipment.objects.get(id=self.request.POST['ID'])
+            device.delete()
+            return HttpResponseRedirect('/equipment/')
 
-        respone = HttpResponse()
-        respone.status_code = 204
-        return respone
+        if "save" in self.request.POST:
+
+            # Save the changes of Device
+            device = Equipment.objects.get(id=self.request.POST['ID'])
+            device.room = self.request.POST['Room']
+            device.description = self.request.POST['Beschreibung']
+            device.brand = self.request.POST['Brand']
+            device.model = self.request.POST['Model']
+            device.qualification = self.request.POST['Quali']
+            device.save()
+
+            respone = HttpResponse()
+            respone.status_code = 204
+            return respone
 
 
 class Userview(generic.DetailView):

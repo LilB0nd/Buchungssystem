@@ -1,35 +1,57 @@
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-        <title>Geräte</title>
-        <link rel="stylesheet" href="/static/CSS/equipment.css">
-</head>
-<body>
-    <div class="over_view">
-       <h1>Geräte</h1>
-
+    <head>
+    <meta charset="UTF-8">
+            <title>Geräte</title>
+            <link rel="stylesheet" href="/static/CSS/equipment.css">
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="mailto:yvo2@schule.bremen.de" alt="Verweis zu einer Email-Adresse" class="class1">Einführungskurs</a></li>
+                <li><a href="#" class="class1">Kalender</a></li>
+                <li><a href="http://127.0.0.1:8000/equipment/" class="class1">Geräte</a></li>
+                <li><a href="#" class="class1">Logout</a></li>
+            </ul>
+        </nav>
+        <form action="" method="post">
+        <h1>Geräte</h1>
         {% for device in equipment_list %}
             <div>
-                <div style="float:left; width: 50%; display:table">
+                <div style="float:left; width: 50%; display:table; height: 150px" class="gertäte">
                     <a href="http://127.0.0.1:8000/Device/{{ device.id }}"><h2>{{ device.name }}</h2></a>
                     <p>{{ device.description }}</p>
                     <p>Steht in Raum {{ device.room }}</p>
                 </div>
-                <div style="float: right; width: 50%; display: table; height: 101px;">
-                    <p>Test</p>
+                <div style="float: right; width: 50%; display: table; height: 150px;">
+                    <p>img</p>
                 </div>
             </div>
         {% endfor %}
-    </div>
-    <div style="float: bottom">
-        <form action="" method="post">
-        {% csrf_token %}
-            {% if not permission %}
-            <button type="submit" name="add">Hinzufügen</button>
-            {% endif %}
-        </form>
-    </div>
+        {% if not permission %}
+            <div>
+                {% csrf_token %}
+                <div style="margin-top: auto">
+                    <label>Name für das Gerät : </label>
+                        <input type="text" name="Name" value="">
+                        <button type="submit" name="add">Hinzufügen</button>
+                </div>
+            </div>
+        {% endif %}
+    </form>
+    <script>
+        window.onscroll = function() {myFunction()};
 
+        var navbar = document.getElementById("navbar");
+        var sticky = navbar.offsetTop;
 
-</body>
+        function myFunction() {
+          if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
+          } else {
+            navbar.classList.remove("sticky");
+          }
+        }
+    </script>
+    </body>
 </html>
