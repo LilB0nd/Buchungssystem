@@ -19,9 +19,18 @@ import pytz
 # Create your views here.
 
 
-class Calendar(generic.CreateView):
-    template_name = "Kalendar/CalendarLen.html"
+class Calendar(generic.TemplateView):
+    template_name = "Kalender/CalendarLen.html"
+    context_object_name = 'lines'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        lines = []
+        for i in range(0, 30):
+            lines.append(i)
+        lines = [lines]
+        context['lines'] = lines
+        return context
 
 class Login(LoginView):
     template_name = 'registration/login.html'

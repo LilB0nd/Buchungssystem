@@ -7,4 +7,22 @@
 <body>
 
 </body>
-</html>
+</html><section class='calendar'>
+  <h1>August 2015</h1>
+  <form action='#'>
+    <label class='weekday'>Mo</label>
+    <label class='weekday'>Tu</label>
+    <label class='weekday'>We</label>
+    <label class='weekday'>Th</label>
+    <label class='weekday'>Fr</label>
+    <label class='weekday'>Sa</label>
+    <label class='weekday'>Su</label>
+    <div class='clearfix'>
+        {% for line in lines %}
+            {% for day in line %}
+                <button class="day"> {{ day }} </button>
+            {% endfor %}
+        {% endfor %}
+    </div>
+  </form>
+</section>
