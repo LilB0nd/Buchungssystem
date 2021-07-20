@@ -24,6 +24,12 @@ class UserCreateForm(UserCreationForm):
             return email
 
 
+class DeviceForm(forms.ModelForm):
+    class Meta:
+        model = Equipment
+        fields = ('name', 'description', 'brand', 'model', 'purchase_date', 'qualification', 'room', 'img')
+
+
 class CalenderForm(forms.ModelForm):
     start_date = DateTimePickerInput()
     end_date = DateTimePickerInput()

@@ -13,6 +13,7 @@ class Equipment(models.Model):
     purchase_date = models.DateField(default=timezone.now)
     qualification = models.TextField(max_length=300)
     room = models.CharField(max_length=5, null=True, blank=True)
+    img = models.ImageField(upload_to='device_img', blank=True, null=True)
 
     def __str__(self):
         return str(self.name + '/' + str(self.id))
