@@ -1,25 +1,24 @@
+import datetime
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from Buchungssystem.forms import *
-from django.shortcuts import render, redirect
-from django.views import generic
-from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect, HttpResponse
-from Buchungssystem.models import *
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.template.loader import render_to_string
+from django.views import generic
+
+from Buchungssystem.forms import *
+from Buchungssystem.models import *
 from .tokens import account_activation_token
-from django.contrib.auth.models import User
-from django.core.mail import EmailMessage
-from django.contrib.auth.mixins import LoginRequiredMixin
-from datetime import datetime
-import pytz
+
+
 # Create your views here.
-
-
-class Calendar(generic.CreateView):
-    template_name = "Kalendar/CalendarLen.html"
 
 
 class Login(LoginView):
@@ -31,11 +30,19 @@ class Login(LoginView):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(request, user)
-            return HttpResponseRedirect("/admin/")
+            return HttpResponseRedirect("/")
         return render(request, 'registration/login.html', {'error': True})
 
 
+class Logout(generic.View):
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect('/login')
+
+
 class SignUP(generic.CreateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'registration/register.html'
     form_class = UserCreateForm
 
@@ -88,6 +95,8 @@ class SignUP(generic.CreateView):
 
 
 class Appoinment(generic.ListView, LoginRequiredMixin):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'appointment.html'
     model = Appointment
 
@@ -104,12 +113,12 @@ class Appoinment(generic.ListView, LoginRequiredMixin):
     def post(self, request, *args, **kwargs):
         user = self.request.user
 
-        if user.letter_of_acceptance and user.induction_course:
+        if user.letter_of_acceptance and user.introduction_course:
             start_date = self.request.POST['start_date']
             end_date = self.request.POST['end_date']
             equipment = self.request.POST['Equipment']
-            datetime_start_date = datetime.strptime(start_date, '%d.%m.%Y %H:%M')
-            datetime_end_date = datetime.strptime(end_date, '%d.%m.%Y %H:%M')
+            datetime_start_date = datetime.datetime.strptime(start_date, '%d.%m.%Y %H:%M')
+            datetime_end_date = datetime.datetime.strptime(end_date, '%d.%m.%Y %H:%M')
             form = CalenderForm(request.POST)
 
             if form.is_valid():
@@ -140,8 +149,16 @@ class EquipmentView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
+        group = Group.objects.get(user=user)
+
+        if group.name == "Schüler":
+            permission = "readonly"
+        else:
+            permission = None
         equipment_list = Equipment.objects.all()
         context['all'] = equipment_list
+        context["permission"] = permission
         return context
 
 
@@ -171,13 +188,17 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
             print("test")
 
 
-class Userview(generic.DetailView):
+class Userview(LoginRequiredMixin, generic.DetailView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = "User/Users.html"
     context_object_name = "users"
     model = UserProfile
 
 
-class Usersview(generic.TemplateView):
+class Usersview(LoginRequiredMixin, generic.TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'User/Lehreransicht.html'
 
     def get_context_data(self, **kwargs):
@@ -185,5 +206,7 @@ class Usersview(generic.TemplateView):
         dic = {"User": user}
         return dic
 
-class IndexView(generic.TemplateView):
+class IndexView(LoginRequiredMixin, generic.TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
     template_name = 'Home/Homepage.html'

@@ -33,7 +33,7 @@ class UserProfile(AbstractUser):
     email = models.EmailField('email address', unique=True, blank=False, default="maxmustermann@schule.bremen.de")
     classes = models.ForeignKey(Classes, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Klasse")
     letter_of_acceptance = models.BooleanField(default=False, verbose_name="Einverständniserklärung")
-    induction_course = models.BooleanField(default=False, verbose_name="Kurs belegt")
+    introduction_course = models.BooleanField(default=False, verbose_name="Kurs belegt")
     course_date = models.DateField(blank=True, null=True, verbose_name="Kursbelegungsdatum")
 
     def save(self, *args, **kwargs):
@@ -65,6 +65,7 @@ class Appointment(models.Model):
     def save(self, *args, **kwargs):
         self.clean()
         return super().save(*args, **kwargs)
+
 
 class AnnulatedAppointment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="Benutzer")

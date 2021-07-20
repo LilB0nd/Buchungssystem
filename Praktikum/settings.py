@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'Buchungssystem.apps.BuchungssystemConfig',
     'bootstrap_datepicker_plus',
     'bootstrap4',
-    'bootstrap_daterangepicker'
 ]
 
 MIDDLEWARE = [
@@ -141,3 +140,5 @@ EMAIL_PORT = 587
 BOOTSTRAP4 = {
     'include_jquery': True,
 }
+
+LOGIN_REDIRECT_URL = "/login/"

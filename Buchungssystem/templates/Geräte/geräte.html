@@ -2,26 +2,60 @@
 <head>
 <meta charset="UTF-8">
         <title>Geräte</title>
-        <link rel="stylesheet" href="/static/CSS/equipment.css">
+        <link rel="stylesheet" href="/static/CSS/Device.css">
 </head>
 <body>
-    <div class="over_view">
-       <h1>Geräte</h1>
-
-        {% for device in equipment_list %}
-            <div>
-                <div style="float:left; width: 50%; display:table">
-                    <a href="http://127.0.0.1:8000/Device/{{ device.id }}"><h2>{{ device.name }}</h2></a>
-                    <p>{{ device.description }}</p>
-                    <p>Steht in Raum {{ device.room }}</p>
-                </div>
-                <div style="float: right; width: 50%; display: table; height: 101px;">
-                    <p>Test</p>
-                </div>
+    <div class="wrapper">
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="mailto:yvo2@schule.bremen.de" alt="Verweis zu einer Email-Adresse" class="class1">Einführungskurs</a></li>
+                    <li><a href="/calendar" class="class1">Kalender</a></li>
+                    <li><a href="/equipment" class="class1">Geräte</a></li>
+                    <li><a href="/logout" class="class1">Logout</a></li>
+                </ul>
+            </nav>
+            <div class="content">
+                <form action="" method="post">
+                <h1>Geräte</h1>
+                {% for device in equipment_list %}
+                    <div>
+                        <div style="float:left; width: 534px; display:table; height: 150px" class="gertäte">
+                            <a href="http://127.0.0.1:8000/Device/{{ device.id }}"><h2>{{ device.name }}</h2></a>
+                            <p>{{ device.description }}</p>
+                            <p>Steht in Raum {{ device.room }}</p>
+                        </div>
+                        <div style="float: right; width: 534px; display: table; height: 150px;">
+                            <p>img</p>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if not permission %}
+                    <div>
+                        {% csrf_token %}
+                        <div style="margin-top: auto">
+                            <label>Name für das Gerät : </label>
+                                <input type="text" name="Name" value="">
+                                <button type="submit" name="add">Hinzufügen</button>
+                        </div>
+                    </div>
+                {% endif %}
+                </form>
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    <script>
+        window.onscroll = function() {myFunction()};
 
+        var navbar = document.getElementById("navbar");
+        var sticky = navbar.offsetTop;
 
-</body>
+        function myFunction() {
+          if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
+          } else {
+            navbar.classList.remove("sticky");
+          }
+        }
+    </script>
+    </body>
 </html>
