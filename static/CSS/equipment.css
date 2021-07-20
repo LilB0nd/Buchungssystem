@@ -1,10 +1,19 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-body{
-    background: radial-gradient(#141e30,#243b55);
-     color: #FFF;
-    font-family: 'Roboto',sans-serif;
+body {
+	background-color:black;
+	background: url(/static/img/back.gif)repeat-x 0 80px #E6E6E6;
+	font-family: Roboto;
 }
+.wrapper{
+	height: 1085px;
+	width: 1068px;
+	margin-left: auto;
+	margin-right:auto;
+	font-family: 'Roboto', sans-serif;
+	background-color: #FFF;
+	top: auto;
+	}
 form a{
     color: #00b6e3;
 	font-weight: 700;
@@ -24,10 +33,12 @@ form a:focus {
 	}
 
 input[type=text] {
-  width: 50%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
+	width: 100%;
+	padding: 12px 20px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	box-sizing: border-box;
+	display: inline-block;
 }
 
 nav {
@@ -66,3 +77,10 @@ nav a:focus {
 	background-color: #00b6e3;
 	color: #FFFFFF;
 	}
+.content{
+	display: inline-block;
+	padding: 16px;
+}
+p{
+	display: inline-block;
+}
