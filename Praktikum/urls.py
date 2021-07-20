@@ -27,5 +27,6 @@ urlpatterns = [
     path('equipment/', EquipmentView.as_view(), name='equipment'),
     url(r'^Device/(?P<pk>.+)/$', DeviceView.as_view(), name='Device'),
     path('users/', Usersview.as_view(), name='Lehreransicht'),
-    url(r'^user/(?P<pk>.+)/$', Userview.as_view(),name='User'),
+    url(r'^user/(?P<pk>.+)/$', Userview.as_view(), name='User'),
+    path('calendar/', Appoinment.as_view(), name='calender1')
 ]

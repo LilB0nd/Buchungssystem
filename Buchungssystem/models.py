@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, Group, Permission, ContentType
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-
+from django.core.exceptions import ValidationError
 
 # # Create your models here.
 class Equipment(models.Model):
@@ -52,24 +52,25 @@ class UserProfile(AbstractUser):
 class Appointment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="Benutzer")
     Equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE, verbose_name="Gerät")
-    date = models.DateField(blank=True, verbose_name="Datum")
-    start_time = models.TimeField(verbose_name="Start")
-    end_time = models.TimeField(verbose_name="Ende")
+    start_date = models.DateTimeField(verbose_name="Start", blank=True, null=True)
+    end_date = models.DateTimeField(verbose_name="Ende", blank=True, null=True)
 
     def __str__(self):
-        return str('Buchung/' + str(self.date) + '/' + str(self.start_time) + '-' + str(self.end_time))
+        return str('Buchung/' + str(self.start_date) + '-' + str(self.end_date))
 
     class Meta:
         verbose_name = 'Buchung'
         verbose_name_plural = 'Buchungen'
 
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
 
 class AnnulatedAppointment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="Benutzer")
     Equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE, verbose_name="Gerät")
-    date = models.DateField(blank=True, verbose_name="Datum")
-    start_time = models.TimeField(verbose_name="Start")
-    end_time = models.TimeField(verbose_name="Ende")
+    start_date = models.DateTimeField(verbose_name="Startzeit", blank=True, null=True)
+    end_date = models.DateTimeField(verbose_name="Endzeit", blank=True, null=True)
 
 
 class News(models.Model):
