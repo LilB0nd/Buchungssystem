@@ -112,6 +112,7 @@ class Appoinment(generic.ListView, LoginRequiredMixin):
             datetime_start_date = datetime.strptime(start_date, '%d.%m.%Y %H:%M')
             datetime_end_date = datetime.strptime(end_date, '%d.%m.%Y %H:%M')
             form = CalenderForm(request.POST)
+
             if form.is_valid():
                 new_Appointment = Appointment()
                 new_Appointment.user = user
@@ -224,3 +225,6 @@ class Usersview(generic.TemplateView):
         user = UserProfile.objects.all()
         dic = {"User": user}
         return dic
+
+class IndexView(generic.TemplateView):
+    template_name = 'Home/Homepage.html'
