@@ -20,12 +20,12 @@
                 <h1>Geräte</h1>
                 {% for device in equipment_list %}
                     <div>
-                        <div style="float:left; width: 534px; display:table; height: 150px" class="gertäte">
+                        <div style="float:left; width: 503px; display:inline-block; height: 150px;" class="gertäte">
                             <a href="http://127.0.0.1:8000/Device/{{ device.id }}"><h2>{{ device.name }}</h2></a>
-                            <p>{{ device.description }}</p>
+                            <p>{{ device.description }}</p><br>
                             <p>Steht in Raum {{ device.room }}</p>
                         </div>
-                        <div style="float: right; width: 534px; display: table; height: 150px;">
+                        <div style="float: right; width: 502px; display: inline-block; height: 150px;">
                             <p>img</p>
                         </div>
                     </div>
@@ -34,9 +34,8 @@
                     <div>
                         {% csrf_token %}
                         <div style="margin-top: auto">
-                            <label>Name für das Gerät : </label>
-                                <input type="text" name="Name" value="">
-                                <button type="submit" name="add">Hinzufügen</button>
+                                <input style="width: 85%; margin-top: 45px; display: inline-block" type="text" name="Name" placeholder="Name für das Neue Gerät:">
+                                <button class="button1" type="submit" name="add">Hinzufügen</button>
                         </div>
                     </div>
                 {% endif %}
