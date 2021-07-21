@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" media="all" type="text/css" href="/static/CSS/appointment.css"/>
+
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet"/>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"></script>
@@ -9,6 +11,16 @@
       <meta charset="utf-8">
     </head>
     <body>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="mailto:yvo2@schule.bremen.de" alt="Verweis zu einer Email-Adresse" class="class1">Einführungskurs</a></li>
+                <li><a href="/calendar" class="class1">Kalender</a></li>
+                <li><a href="/equipment" class="class1">Geräte</a></li>
+                <li><a href="/logout" class="class1">Logout</a></li>
+            </ul>
+        </nav>
+
         <h1>Buchung</h1>
         <form method="post">
             {% csrf_token %}
