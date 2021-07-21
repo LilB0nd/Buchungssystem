@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 # # Create your models here.
 
 
-class Equipment(models.Model):
+class Equipment(models.Model):  # Die Relatation für die Geräte
     name = models.CharField(max_length=90)
     description = models.TextField(max_length=300, null=True, blank=True)
     brand = models.CharField(max_length=30, null=True, blank=True)
@@ -38,19 +38,19 @@ class UserProfile(AbstractUser):
     letter_of_acceptance = models.BooleanField(default=False, verbose_name="Einverständniserklärung")
     introduction_course = models.BooleanField(default=False, verbose_name="Kurs belegt")
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):  # Es wird überprüft ob die Schulmail eine Lehrer- oder Schülermail ist
         super(UserProfile, self).save(*args, **kwargs)
         stremail = str(self.email)
-        if stremail[1] == '.':
+        if stremail[1] == '.':  # Mail mit einem Punkt an zweiter Stelle sind Lehrer Mails
             teacher_group = Group.objects.get_or_create(name='Lehrer',)
             teacher_group[0].user_set.add(self)
         else:
             student_group = Group.objects.get_or_create(name='Schüler')
             student_group[0].user_set.add(self)
 
-        super(UserProfile, self).save(*args, **kwargs)
+        super(UserProfile, self).save(*args, **kwargs)  # Nutzer wird gespeichert
 
-"""
+""" # Einführungkurs 
 class IntroductionCourse(models.Model):
     orginazer = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="Veranstalter")
     start_date = models.DateTimeField(verbose_name="Startzeit", blank=True, null=True)

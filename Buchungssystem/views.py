@@ -21,6 +21,10 @@ from .tokens import account_activation_token
 
 
 class Calendar(generic.TemplateView):
+    """
+    ist nicht implemiert
+    Ansatz für den Kalender
+    """
     template_name = "Kalender/CalendarLen.html"
     context_object_name = 'lines'
 
@@ -33,6 +37,7 @@ class Calendar(generic.TemplateView):
         context['lines'] = lines
         return context
 
+
 class Login(LoginView):
     template_name = 'registration/login.html'
 
@@ -40,21 +45,19 @@ class Login(LoginView):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        if user is not None and user.is_active:
-            login(request, user)
-            return HttpResponseRedirect("/")
+        if user is not None and user.is_active:  # Falls der Nutzer Anmeldedaten richtig eingibt
+            login(request, user)  # Nutzer wird angemeldet
+            return HttpResponseRedirect("/")  # Nutzer wird auf die Homepage weitergeleitet
         return render(request, 'registration/login.html', {'error': True})
 
 
-class Logout(generic.View):
+class Logout(generic.View):  # Logt den Nutzer einfach aus
     def get(self, request):
-        logout(request)
+        logout(request)  # Nutzer wird abgemeldet
         return HttpResponseRedirect('/login')
 
 
 class SignUP(generic.CreateView):
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
     template_name = 'registration/register.html'
     form_class = UserCreateForm
 
@@ -65,15 +68,16 @@ class SignUP(generic.CreateView):
     def post(self, request, *args, **kwargs):
         if "verification" in self.request.POST:
             email = self.request.POST['email']
-            email = email.split('@')
+            email = email.split('@')  # Email wir am @ getrennt
             form = UserCreateForm(request.POST)
             if form.is_valid():
                 user = form.save(commit=False)
-                user.username = email[0]
+                user.username = email[0]  # Nutzer wird der Teil der Email das vorm @ steht
                 user.is_active = False
                 user.save()
                 current_site = get_current_site(request)
-                mail_subject = 'Activate your blog account.'
+                # Bestätigungsemail für Erstellung des Accounts
+                mail_subject = 'Aktiviere deinen Account.'
                 message = render_to_string('registration/acc_active_email.html', {
                     'user': user,
                     'domain': current_site.domain,
@@ -231,13 +235,11 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
     def post(self, *args, **kwargs):
 
         if "delete" in self.request.POST:
-            print(self.request.POST['ID'])
             device = Equipment.objects.get(id=self.request.POST['ID'])
             device.delete()
             return HttpResponseRedirect('/equipment/')
 
         if "save" in self.request.POST:
-            print("test")
 
             # Save the changes of Device
             device = Equipment.objects.get(id=self.request.POST['ID'])
@@ -256,11 +258,9 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
 
             img_dict = self.request.FILES
             img = img_dict['img_upload']
-            print(img)
             device = Equipment.objects.get(id=kwargs['pk'])
             device.img = img
             device.save()
-            print(device)
         return HttpResponseRedirect("")
 
 
