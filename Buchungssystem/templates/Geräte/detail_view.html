@@ -23,7 +23,7 @@
             </ul>
         </nav>
         <div class="content">
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div>
                 <h1>{{ Device.name }}</h1>
@@ -37,12 +37,9 @@
 
             {% if Device.img %}
             <img src="{{ Device.img.url}}" alt="connect" style="max-height:300px" name="img">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.img }}
-                <button type="submit" name="upload">Upload</button>
-            </form>
             {% endif %}
+            <label>Select an Image</label><input type="file" name="img_upload">
+                <button type="submit" name="upload">Upload</button>
             </div>
             {% if not permission %}
                 <button  class="button1" type="submit" name="save">Save</button>

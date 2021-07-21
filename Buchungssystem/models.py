@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 
 # # Create your models here.
+
+
 class Equipment(models.Model):
     name = models.CharField(max_length=90)
     description = models.TextField(max_length=300, null=True, blank=True)

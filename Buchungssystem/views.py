@@ -253,7 +253,10 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
             return respone
 
         if "upload" in self.request.POST:
-            img = self.request.POST['img']
+
+            img_dict = self.request.FILES
+            img = img_dict['img_upload']
+            print(img)
             device = Equipment.objects.get(id=kwargs['pk'])
             device.img = img
             device.save()
