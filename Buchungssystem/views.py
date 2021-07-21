@@ -2,7 +2,6 @@ import datetime
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
@@ -93,8 +92,30 @@ class SignUP(generic.CreateView):
         else:
             return HttpResponse('Activation link is invalid!')
 
+"""
+class IntroductionCourse(LoginRequiredMixin, generic.ListView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'introductionCourse.html'
+    model = IntroductionCourse
 
-class Appoinment(generic.ListView, LoginRequiredMixin):
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        groups = Group.objects.get(user=user)
+        introduction_course = IntroductionCourse.objects.all()
+        permission = None
+        for group in groups:
+            if group.name == "Schüler":
+                permission = "readonly"
+
+
+        context['permission'] = permission
+        context['course_list'] = introduction_course
+"""
+
+
+class Appoinment(LoginRequiredMixin, generic.ListView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     template_name = 'appointment.html'
@@ -105,14 +126,8 @@ class Appoinment(generic.ListView, LoginRequiredMixin):
         device = Equipment.objects.all()
         return {'form': form, 'device': device}
 
-        # appointment_day_list = Appointment.objects.get(date=selected_date)
-        # group = Group.objects.get(user=user)
-        # context['appointments'] = appointment_day_list
-        # context['user_group'] = group
-
     def post(self, request, *args, **kwargs):
         user = self.request.user
-
         if user.letter_of_acceptance and user.introduction_course:
             start_date = self.request.POST['start_date']
             end_date = self.request.POST['end_date']
@@ -120,7 +135,6 @@ class Appoinment(generic.ListView, LoginRequiredMixin):
             datetime_start_date = datetime.datetime.strptime(start_date, '%d.%m.%Y %H:%M')
             datetime_end_date = datetime.datetime.strptime(end_date, '%d.%m.%Y %H:%M')
             form = CalenderForm(request.POST)
-
             if form.is_valid():
                 new_Appointment = Appointment()
                 new_Appointment.user = user
@@ -128,12 +142,10 @@ class Appoinment(generic.ListView, LoginRequiredMixin):
                 new_Appointment.start_date = datetime_start_date
                 new_Appointment.end_date = datetime_end_date
                 new_Appointment.save()
-
             else:
                 return render(request, 'appointment.html', {'form': form})
                 # EndDatum vor dem Startdatum
             return HttpResponse(start_date)
-
 
         else:
             # return hat keine Berechtigung den Raum zu buchen
@@ -151,11 +163,10 @@ class EquipmentView(LoginRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         group = Group.objects.get(user=user)
-
+        permission = None
         if group.name == "Schüler":
             permission = "readonly"
-        else:
-            permission = None
+
         equipment_list = Equipment.objects.all()
         context['all'] = equipment_list
         context["permission"] = permission
@@ -170,6 +181,7 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
     model = Equipment
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        form = DeviceForm()
         context = super().get_context_data(**kwargs)
         user = self.request.user
         group = Group.objects.get(user=user)
@@ -180,12 +192,20 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
             permission = None
 
         context['group'] = group
+        context['form'] = form
         context["permission"] = permission
         return context
 
     def post(self, *args, **kwargs):
         if "save" in self.request.POST:
             print("test")
+        if "upload" in self.request.POST:
+            img = self.request.POST['img']
+            device = Equipment.objects.get(id=kwargs['pk'])
+            device.img = img
+            device.save()
+            print(device)
+        return HttpResponseRedirect("")
 
 
 class Userview(LoginRequiredMixin, generic.DetailView):
@@ -205,6 +225,7 @@ class Usersview(LoginRequiredMixin, generic.TemplateView):
         user = UserProfile.objects.all()
         dic = {"User": user}
         return dic
+
 
 class IndexView(LoginRequiredMixin, generic.TemplateView):
     login_url = '/login/'

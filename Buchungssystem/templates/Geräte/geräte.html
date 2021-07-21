@@ -27,6 +27,7 @@
                         </div>
                         <div style="float: right; width: 534px; display: table; height: 150px;">
                             {% if device.img %}
+                                {{ device.img.url }}
                             <img src="{{ device.img.url}}" alt="connect" style="max-height:300px">
                             {% endif %}
                         </div>

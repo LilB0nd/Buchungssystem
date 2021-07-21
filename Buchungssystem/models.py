@@ -13,7 +13,7 @@ class Equipment(models.Model):
     purchase_date = models.DateField(default=timezone.now)
     qualification = models.TextField(max_length=300)
     room = models.CharField(max_length=5, null=True, blank=True)
-    img = models.ImageField(upload_to='device_img', blank=True, null=True)
+    img = models.ImageField(default='missing_image.png', upload_to='device_img/', blank=True, null=True)
 
     def __str__(self):
         return str(self.name + '/' + str(self.id))
@@ -35,7 +35,6 @@ class UserProfile(AbstractUser):
     classes = models.ForeignKey(Classes, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Klasse")
     letter_of_acceptance = models.BooleanField(default=False, verbose_name="Einverständniserklärung")
     introduction_course = models.BooleanField(default=False, verbose_name="Kurs belegt")
-    course_date = models.DateField(blank=True, null=True, verbose_name="Kursbelegungsdatum")
 
     def save(self, *args, **kwargs):
         super(UserProfile, self).save(*args, **kwargs)
@@ -48,6 +47,15 @@ class UserProfile(AbstractUser):
             student_group[0].user_set.add(self)
 
         super(UserProfile, self).save(*args, **kwargs)
+
+"""
+class IntroductionCourse(models.Model):
+    orginazer = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="Veranstalter")
+    start_date = models.DateTimeField(verbose_name="Startzeit", blank=True, null=True)
+    end_date = models.DateTimeField(verbose_name="Endzeit", blank=True, null=True)
+    user_list = models.ManyToManyField(UserProfile)
+    places = models.IntegerField(blank=True, null=True)
+"""
 
 
 class Appointment(models.Model):
@@ -79,3 +87,4 @@ class News(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="Benutzer")
     content = models.CharField(max_length=500, blank=True, verbose_name="Inhalt")
     Date = models.DateField(blank=True, verbose_name="Datum")
+

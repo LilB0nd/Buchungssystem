@@ -15,8 +15,13 @@
         <p>Kauf Datum:<input type="text" name="Date" value="{{ Device.purchase_date }}" {{ permission }}></p>
         <p>Anforderung:<input type="text" name="Quali" value="{{ Device.qualification }}" {{ permission }}></p>
         {% if Device.img %}
-        <img src="{{ Device.img.url}}" alt="connect" style="max-height:300px">
-{% endif %}
+            <img src="{{ Device.img.url}}" alt="connect" style="max-height:300px" name="img">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.img }}
+                <button type="submit" name="upload">Upload</button>
+            </form>
+        {% endif %}
     </div>
     {% if not permission %}
         <button type="submit" name="save">Save</button>

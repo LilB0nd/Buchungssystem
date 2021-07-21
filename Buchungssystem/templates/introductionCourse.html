@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    {% for course in introductioncourse_list %}
+        {{ course.orginazer }}
+        {{ course.start_date }}
+        {{ course.end_date }}
+        {{ course.places }}
+    {% endfor %}
+                {% if not permission %}
+                    <div>
+                        {% csrf_token %}
+                        <div style="margin-top: auto">
+                            <label>Name für das Gerät : </label>
+                                <input type="text" name="Name" value="">
+                                <button type="submit" name="add">Hinzufügen</button>
+                        </div>
+                    </div>
+                {% endif %}
+</body>
+</html>

@@ -31,8 +31,9 @@ urlpatterns = [
     path('users/', Usersview.as_view(), name='Lehreransicht'),
     url(r'^user/(?P<pk>.+)/$', Userview.as_view(), name='User'),
     path('calendar/', Appoinment.as_view(), name='calender1'),
-    path('', IndexView.as_view(), name='Index')
-]
+    path('', IndexView.as_view(), name='Index'),
 
+    #path('course/', IntroductionCourse.as_view(), name='IntroductionCourse')
+]
 urlpatterns += static(settings.MEDIA_URL,
                               document_root=settings.MEDIA_ROOT)
