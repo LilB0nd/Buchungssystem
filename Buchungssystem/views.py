@@ -20,6 +20,19 @@ from .tokens import account_activation_token
 # Create your views here.
 
 
+class Calendar(generic.TemplateView):
+    template_name = "Kalender/CalendarLen.html"
+    context_object_name = 'lines'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        lines = []
+        for i in range(0, 30):
+            lines.append(i)
+        lines = [lines]
+        context['lines'] = lines
+        return context
+
 class Login(LoginView):
     template_name = 'registration/login.html'
 
@@ -159,6 +172,18 @@ class EquipmentView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'equipment_list'
     model = Equipment
 
+    def post(self, *args, **kwargs):
+        if self.request.POST['Name'] != '':
+            new = Equipment.objects.create(name=self.request.POST['Name'])
+            new.save()
+            return HttpResponseRedirect('/Device/'+str(new.id))
+        else:
+
+            respone = HttpResponse()
+            respone.status_code = 204
+            return respone
+
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
@@ -168,8 +193,15 @@ class EquipmentView(LoginRequiredMixin, generic.ListView):
             permission = "readonly"
 
         equipment_list = Equipment.objects.all()
-        context['all'] = equipment_list
+
+        if group.name == "Schüler":
+            permission = "readonly"
+        else:
+            permission = None
+
+        context['group'] = group
         context["permission"] = permission
+        context['all'] = equipment_list
         return context
 
 
@@ -197,8 +229,29 @@ class DeviceView(LoginRequiredMixin, generic.DetailView):
         return context
 
     def post(self, *args, **kwargs):
+
+        if "delete" in self.request.POST:
+            print(self.request.POST['ID'])
+            device = Equipment.objects.get(id=self.request.POST['ID'])
+            device.delete()
+            return HttpResponseRedirect('/equipment/')
+
         if "save" in self.request.POST:
             print("test")
+
+            # Save the changes of Device
+            device = Equipment.objects.get(id=self.request.POST['ID'])
+            device.room = self.request.POST['Room']
+            device.description = self.request.POST['Beschreibung']
+            device.brand = self.request.POST['Brand']
+            device.model = self.request.POST['Model']
+            device.qualification = self.request.POST['Quali']
+            device.save()
+
+            respone = HttpResponse()
+            respone.status_code = 204
+            return respone
+
         if "upload" in self.request.POST:
             img = self.request.POST['img']
             device = Equipment.objects.get(id=kwargs['pk'])

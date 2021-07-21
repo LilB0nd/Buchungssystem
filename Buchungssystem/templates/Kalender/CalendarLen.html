@@ -1,17 +1,26 @@
-<html lang="en" >
+<html>
     <head>
-        <meta charset="UTF-8">
-        <title>Kalendar</title>
-        <link rel="stylesheet" href="/static/CSS/calendar.css">
+      <link href="/static/CSS/style_cal.css" rel="stylesheet"/>
     </head>
-    <div class="calendar_con">
-      <h2>Calendar</h2>
-        {% for line in cur_view %}
-            {% for day in line %}
-                <div class="day_con">
-                </div>
+<section class='calendar'>
+  <h1>August 2015</h1>
+  <form action='#'>
+    <label class='weekday'>Mo</label>
+    <label class='weekday'>Tu</label>
+    <label class='weekday'>We</label>
+    <label class='weekday'>Th</label>
+    <label class='weekday'>Fr</label>
+    <label class='weekday'>Sa</label>
+    <label class='weekday'>Su</label>
+    <div class='clearfix'>
+        {% for line in lines %}
+            {% for days in line %}
+                <button class='day'>{{ days }}</button>
+                <span></span>
             {% endfor %}
-            <br>
         {% endfor %}
     </div>
+  </form>
+</section>
 </html>
+

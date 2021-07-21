@@ -1,32 +1,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/static/CSS/Device.css">
     <title>{{ Device.name }}</title>
+    <link rel="stylesheet" href="/static/CSS/equipment.css">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+        body {
+            background-color: #E6E6E6;
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
 </head>
 <body>
-    <form action="" method="post">
-    <div>
-        <h1>{{ Device.name }}</h1>
-        <p>Raum : <input type="text" name="Room" value="{{ Device.room }}" {{ permission }}></p>
-        <p>Beschreibung: <input type="text" name="Beschreibung" value="{{ Device.description }}" {{ permission }}></p>
-        <p>Marke:<input type="text" name="Brand" value="{{ Device.brand }}" {{ permission }}></p>
-        <p>Model:<input type="text" name="Model" value="{{ Device.model }}" {{ permission }}></p>
-        <p>Kauf Datum:<input type="text" name="Date" value="{{ Device.purchase_date }}" {{ permission }}></p>
-        <p>Anforderung:<input type="text" name="Quali" value="{{ Device.qualification }}" {{ permission }}></p>
-        {% if Device.img %}
+    <div class="wrapper">
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="mailto:yvo2@schule.bremen.de" alt="Verweis zu einer Email-Adresse" class="class1">Einführungskurs</a></li>
+                <li><a href="#" class="class1">Kalender</a></li>
+                <li><a href="http://127.0.0.1:8000/equipment/" class="class1">Geräte</a></li>
+                <li><a href="#" class="class1">Logout</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <form action="" method="post">
+            {% csrf_token %}
+            <div>
+                <h1>{{ Device.name }}</h1>
+                <label>ID:</label><input type="text" name="ID" value="{{ Device.id }}" readonly><br>
+                <label>Raum :</label><input type="text" name="Room" value="{{ Device.room }}" {{ permission }}><br>
+                <label>Marke:</label><input type="text" name="Brand" value="{{ Device.brand }}" {{ permission }}><br>
+                <label>Model:</label><input type="text" name="Model" value="{{ Device.model }}" {{ permission }}><br>
+                <label>Kauf Datum:</label><input type="text" name="Date" value="{{ Device.purchase_date }}" readonly><br>
+                <label>Beschreibung:</label><input type="text" name="Beschreibung" value="{{ Device.description }}" {{ permission }}><br>
+                <label>Anforderung:</label><input type="text" name="Quali" value="{{ Device.qualification }}" {{ permission }}><br>
+
+            {% if Device.img %}
             <img src="{{ Device.img.url}}" alt="connect" style="max-height:300px" name="img">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.img }}
                 <button type="submit" name="upload">Upload</button>
             </form>
-        {% endif %}
+            {% endif %}
+            </div>
+            {% if not permission %}
+                <button  class="button1" type="submit" name="save">Save</button>
+                <button class="button1" name="delete">Delete</button>
+            {% endif %}
+            </form>
+        </div>
     </div>
-    {% if not permission %}
-        <button type="submit" name="save">Save</button>
-        <p>{{ group }}</p>
-    {% endif %}
-    </form>
 </body>
 </html>

@@ -6,7 +6,7 @@ body {
 	font-family: Roboto;
 }
 .wrapper{
-	height: 1085px;
+	height: 100%;
 	width: 1068px;
 	margin-left: auto;
 	margin-right:auto;
@@ -28,9 +28,12 @@ form a{
 
 form a:hover,
 form a:focus {
-	background-color: #00b6e3;
-	color: #FFFFFF;
+	color: #000;
+	background: #00b6e3;
 	}
+h2{
+	display: table;
+}
 
 input[type=text] {
 	width: 100%;
@@ -83,4 +86,22 @@ nav a:focus {
 }
 p{
 	display: inline-block;
+}
+.button1{
+	font: inherit;
+	background-color: #FF7A59;
+	border: none;
+	padding: 10px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-weight: 900;
+	color: white;
+	border-radius: 5px;
+	box-shadow: 3px 3px #d94c53;
+}
+.button1:hover{
+	cursor: pointer;
+	background-color: #00b6e3;
+	color: #FFFFFF;
+	box-shadow: 3px 3px #5882FA ;
 }
